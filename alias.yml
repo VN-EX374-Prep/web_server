@@ -3,5 +3,17 @@
   hosts: dev
   roles:
     - webserver
+  tasks:
+    - name: install alias for deployment
+      template:
+        src: alias.temp.j2
+        dest: /var/www/html/index.html
+      notify: restart the httpd service
+
+  handlers:
+    - name: restart the httpd service
+      ansible.builtin.service:
+        name: httpd
+        state: restarted
 
 
