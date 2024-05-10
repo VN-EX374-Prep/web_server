@@ -1,5 +1,23 @@
 ---
 - name: Webserver and Alias Deployment
   hosts: dev
+  become: yes
+  roles:
+    - webserver
+  tasks:
+    - name: call the template for web server deployement
+      template:
+        src:  alias.temp.j2
+        dest: /var/www/html/index.html
+      notify: Restart the webserver services
+
+  handlers:
+    - name: Restart the webserver services
+      ansible.builtin.service:
+        name: httpd
+        state: restarted
+
+
+
 
 
