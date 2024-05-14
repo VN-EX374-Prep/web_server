@@ -1,23 +1,6 @@
 ---
 - name: Webserver and Alias Deployment
   hosts: dev
-  become: yes
-  roles:
-    - webserver
-  tasks:
-    - name: call template file for content copy
-      ansible.builtin.template:
-        src: alias.temp.j2
-        dest: /var/www/html/index.html
-      notify: restart web services
-
-  handlers:
-    - name: restart web services
-      ansible.builtin.service:
-        name: httpd
-        state: restarted
-
-
 
 
 
