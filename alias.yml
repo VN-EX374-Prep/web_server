@@ -1,6 +1,21 @@
 ---
 - name: Webserver and Alias Deployment
   hosts: dev
+  become: yes
+  roles:
+    - webserver
+  tasks:
+    - name: copy the web content with use jinja template
+      ansible.builtin.template:
+        src: alias.temp.j2
+        dest: /var/www/html/index.html
+      notify: restart the httpd
+
+  handlers:
+    - name: restart the httpd
+      ansible.builtin.service:
+        name: httpd
+        state: restarted
 
       
 
